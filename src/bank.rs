@@ -1,8 +1,10 @@
 // src/bank.rs
 
 use std::collections::HashMap;
-
+//ParialEq is useing allows comaprison between two values
 #[derive(Debug, PartialEq)]
+
+//Defining possible errore in bank 
 pub enum BankError {
     AccountExists,
     AccountNotFound,
@@ -10,10 +12,12 @@ pub enum BankError {
 }
 
 #[derive(Debug)]
+//This is a structre representing a bank
 pub struct Bank {
     accounts: HashMap<String, f64>,
 }
-
+//Self is useing in referce to bank
+//inistiation of emty Hashmap of account
 impl Bank {
     pub fn new() -> Self {
         Self {
@@ -22,6 +26,7 @@ impl Bank {
     }
 
     pub fn create_account(&mut self, name: String) -> Result<(), BankError> {
+        //check if the account exists
         if self.accounts.contains_key(&name) {
             return Err(BankError::AccountExists);
         }
@@ -33,7 +38,9 @@ impl Bank {
         let balance = self
             .accounts
             .get_mut(name)
+            //Convert option to Result
             .ok_or(BankError::AccountNotFound)?;
+        //Update the balance
         *balance += amount;
         Ok(())
     }
